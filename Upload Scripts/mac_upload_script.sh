@@ -19,12 +19,14 @@ programSlot=1
 #	UseKeychain yes
 #	AddKeysToAgent yes
 # ----------------------------
+dir=$(echo 0${programSlot} | tail -c 3)
+dir=$(echo program${dir})
 
 # Print file and host to output
-echo "Uploading $1 ... to \"$sshHost\""
+echo "Uploading $1 ... to \"$sshHost\" in /$dir"
 
 # Open SFTP connection to processor and put the file
-sftp ${sshHost}:/program01 << EOF
+sftp ${sshHost}:/${dir} << EOF
 put $1
 exit
 EOF
