@@ -21,14 +21,15 @@ programSlot=1
 # ----------------------------
 dir=$(echo 0${programSlot} | tail -c 3)
 dir=$(echo program${dir})
+file="$1.dll"
 
 # Print file and host to output
-echo "Uploading $1 ... to \"$sshHost\" in /$dir"
+echo "Uploading $file ... to \"$sshHost\" in /$dir"
 
 # Open SFTP connection to processor and put the file
 sftp ${sshHost}:/${dir} << EOF
-put $1
-exit
+put $file
+bye
 EOF
 
 echo "Uploaded, will now ssh to processor and run ..."
@@ -40,3 +41,4 @@ bye
 EOF
 
 echo "Disconnected. Complete"
+exit 0
