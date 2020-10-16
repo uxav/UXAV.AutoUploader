@@ -36,7 +36,7 @@ echo "Uploaded, will now ssh to processor and run ..."
 
 # Open SSH connection to processor and restart the program
 ssh -t -t ${sshHost} << EOF
-progload -P:${programSlot}
+progres -P:${programSlot}
 bye
 EOF
 
