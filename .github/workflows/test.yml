@@ -4,7 +4,7 @@ on:
   push:
     branches: [ develop ]
 
-name: Package NuGet
+name: Test Package
 
 jobs:
   get-version:
