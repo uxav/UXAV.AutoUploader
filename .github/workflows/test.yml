@@ -1,0 +1,27 @@
+on:
+  push:
+    branches: [ develop ]
+
+name: Package NuGet
+
+jobs:
+  get-version:
+    runs-on: ubuntu-latest
+    env:
+      VERSION: "0.0.1"
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Set version
+        run: echo "::set-env name=VERSION::${VERSION}"
+
+      - name: Setup NuGet.exe
+        uses: NuGet/setup-nuget@v1.0.5
+
+      - name: Nuget Add Source
+        run: nuget sources Add -Name "uxav" -Source https://nuget.pkg.github.com/uxav/index.json -username uxav -password ${{ secrets.GITHUB_TOKEN }} -StorePasswordInClearText
+
+      - name: Pack Nuget
+        run: nuget pack Package.nuspec -Version ${{ env.VERSION }}
+
