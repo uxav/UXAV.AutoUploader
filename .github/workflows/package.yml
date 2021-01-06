@@ -20,7 +20,7 @@ jobs:
           arrTag=(${GITHUB_REF//\// })
           VERSION="${arrTag[2]}"
           VERSION="${VERSION//v}"
-          echo "::set-env name=VERSION::${VERSION}"
+          echo "::set-output name=VERSION::${VERSION}"
 
       - name: Create Release
         id: create_release
