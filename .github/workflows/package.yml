@@ -19,3 +19,9 @@ jobs:
         run: |
           version=${{ github.event.release.tag_name }}
           nuget pack Package.nuspec -Version ${version//v/}
+      
+      - name: Nuget Add Source
+        run: nuget sources Add -Name "uxav" -Source https://nuget.pkg.github.com/uxav/index.json -username uxav -password ${{ secrets.GITHUB_TOKEN }} -StorePasswordInClearText
+      
+      - name: Push generated package to GitHub registry
+        run: nuget push *.nupkg -source "uxav"
