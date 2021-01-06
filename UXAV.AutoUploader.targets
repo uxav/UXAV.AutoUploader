@@ -5,6 +5,6 @@
         <Exec Command="bash '$(ProjectDir)Upload Scripts/mac_upload_script.sh' '$(ProjectDir)bin/$(ConfigurationName)/$(TargetName)'" />
     </Target>
     <Target Name="AutoUploadWindows" Condition="'$(ConfigurationName)'=='Debug' And '$(OS)'!='Unix'" AfterTargets="SimplSharpPostProcess">
-        <Exec Command="powershell -ExecutionPolicy Unrestricted -file &quot;$(ProjectDir)Upload Scripts\WindowsUploadScript.ps1&quot; &quot;$(ProjectDir)bin\$(ConfigurationName)\$(TargetName).cpz&quot;" />
+        <Exec Command="powershell -ExecutionPolicy Unrestricted -file &quot;$(ProjectDir)Upload Scripts\WindowsUploadScript.ps1&quot; &quot;$(ProjectDir)bin\$(ConfigurationName)&quot; &quot;$(TargetName)&quot;" />
     </Target>
 </Project>
