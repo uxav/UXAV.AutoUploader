@@ -1,4 +1,6 @@
 on:
+  pull-request:
+    branches: [ master ]
   push:
     branches: [ develop ]
 
