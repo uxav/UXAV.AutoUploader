@@ -37,10 +37,6 @@ Send-FTPFile -Device $deviceAddress -LocalFile $localFilePath -RemoteFile $remot
 # Get file extension
 $extension = [System.IO.Path]::GetExtension($localFilePath)
 
-# Get current running program info
-Write-Host "Getting current running program in slot ${programSlot}:"
-Invoke-CrestronCommand -Device $deviceAddress -Command 'progcomments' -Username $user -Password $password -Secure
-
 if ($extension -eq ".cpz") {
     #Send progload for cpz
     Write-Host "Loaded cpz file to processor. Will now send progload to slot ${programSlot}..."
