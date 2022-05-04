@@ -15,6 +15,9 @@ jobs:
       - name: Setup NuGet.exe
         uses: NuGet/setup-nuget@v1.0.5
 
+      - name: Add Nuget API Key for nuget.org
+        run: nuget setapikey ${{ secrets.NUGET_UXAV_API_KEY }}
+
       - name: Pack Nuget
         run: |
           version=${{ github.event.release.tag_name }}
@@ -22,6 +25,9 @@ jobs:
       
       - name: Nuget Add Source
         run: nuget sources Add -Name "uxav" -Source https://nuget.pkg.github.com/uxav/index.json -username uxav -password ${{ secrets.GITHUB_TOKEN }} -StorePasswordInClearText
+
+      - name: Push generated package to nuget.org
+        run: nuget push *.nupkg -source https://api.nuget.org/v3/index.json
       
       - name: Push generated package to GitHub registry
         run: nuget push *.nupkg -source "uxav"

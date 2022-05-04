@@ -42,3 +42,26 @@ EOF
 
 echo "Disconnected. Complete"
 exit 0
+
+#Example VC4 script below
+
+#host='vc4-host-or-ip'
+#programId=1
+#token='inserttokenhere'
+#
+#file="$1.cpz"
+#iPadFile="$2CrestronAppProjectFile_Project.zip"
+#
+#echo "Project directory is $2"
+#echo "Mobility project file is $iPadFile"
+#echo "CPZ File is $1"
+
+#curl -v --request PUT \
+#  --url "http:/$host/VirtualControl/config/api/ProgramLibrary" \
+#  --header "Authorization: $token" \
+#  --form AppFile=@"${file}" \
+#  --form MobilityFile=@"${iPadFile}" \
+#  --form ProgramId=$programId \
+#  --form StartNow=true
+#  
+#exit 0
