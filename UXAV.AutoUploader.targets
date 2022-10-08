@@ -2,9 +2,31 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <Target Name="AutoUploadMac" Condition="'$(ConfigurationName)'=='Debug' And '$(OS)'=='Unix'" AfterTargets="SimplSharpPostProcess">
         <Message Text="Will now run upload script for OS: '$(OS)'"/>
-        <Exec Command="bash '$(ProjectDir)Upload Scripts/mac_upload_script.sh' '$(ProjectDir)bin/$(ConfigurationName)/$(TargetName)' '$(ProjectDir)'" />
+        <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
+            <Output TaskParameter="Assemblies" ItemName="Assembly"/>
+        </GetAssemblyIdentity>
+        <GetFileVersion AssemblyPath="$(TargetPath)">
+            <Output TaskParameter="Version" PropertyName="AssemblyFileVersion" />
+        </GetFileVersion>
+        <Exec Command="bash '$(ProjectDir)Upload Scripts/mac_upload_script.sh' '$(ProjectDir)bin/$(ConfigurationName)/$(TargetName)' '$(ProjectDir)' '$(ConfigurationName)' %(Assembly.Version) $(AssemblyFileVersion) $(TargetName)"/>
     </Target>
     <Target Name="AutoUploadWindows" Condition="'$(ConfigurationName)'=='Debug' And '$(OS)'!='Unix'" AfterTargets="SimplSharpPostProcess">
         <Exec Command="powershell -ExecutionPolicy Unrestricted -file &quot;$(ProjectDir)Upload Scripts\WindowsUploadScript.ps1&quot; &quot;$(ProjectDir)bin\$(ConfigurationName)&quot; &quot;$(TargetName)&quot;" />
     </Target>
+    <UsingTask TaskName="GetFileVersion" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll">
+        <ParameterGroup>
+            <AssemblyPath ParameterType="System.String" Required="true"/>
+            <Version ParameterType="System.String" Output="true"/>
+        </ParameterGroup>
+        <Task>
+            <Using Namespace="System.Diagnostics"/>
+            <Code Type="Fragment" Language="cs">
+                <![CDATA[
+      Log.LogMessage("Getting version details of assembly at: " + this.AssemblyPath, MessageImportance.High);
+
+      this.Version = FileVersionInfo.GetVersionInfo(this.AssemblyPath).FileVersion;  
+    ]]>
+            </Code>
+        </Task>
+    </UsingTask>
 </Project>
