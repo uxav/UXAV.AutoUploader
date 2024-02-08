@@ -13,7 +13,7 @@ jobs:
       VERSION: "0.0.1"
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
 
       - name: Set version
         run: echo "::set-output name=VERSION::${VERSION}"
@@ -22,7 +22,7 @@ jobs:
         run: echo "Version is ${{ env.VERSION }}"
 
       - name: Setup NuGet.exe
-        uses: NuGet/setup-nuget@v1.0.5
+        uses: NuGet/setup-nuget@v2
 
       - name: Add Nuget API Key for nuget.org
         run: nuget setapikey ${{ secrets.NUGET_UXAV_API_KEY }}
